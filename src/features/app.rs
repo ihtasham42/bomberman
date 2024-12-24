@@ -19,6 +19,6 @@ pub fn create_app() {
             ..Default::default()
         }))
         .add_systems(Startup, systems::setup::run)
-        .add_systems(Update, systems::player_input::run)
+        .add_systems(Update, (systems::player_input::run, systems::movement::run))
         .run();
 }

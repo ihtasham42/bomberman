@@ -13,3 +13,9 @@ pub struct Walker {
     pub horizontal_direction: Option<Direction>,
     pub vertical_direction: Option<Direction>,
 }
+
+#[derive(Component)]
+pub struct Velocity {
+    pub x: f32,
+    pub y: f32,
+}

@@ -1,7 +1,3 @@
-use std::default::Default;
-
-use bevy::prelude::*;
-
 pub mod components;
 pub mod constants;
 pub mod entity;
