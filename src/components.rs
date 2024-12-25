@@ -14,8 +14,26 @@ pub struct Walker {
     pub vertical_direction: Option<Direction>,
 }
 
+impl Default for Walker {
+    fn default() -> Self {
+        Self {
+            horizontal_direction: None,
+            vertical_direction: None,
+        }
+    }
+}
+
 #[derive(Component)]
 pub struct Velocity {
     pub x: f32,
     pub y: f32,
 }
+
+impl Default for Velocity {
+    fn default() -> Self {
+        Self { x: 0.0, y: 0.0 }
+    }
+}
+
+#[derive(Component)]
+pub struct CameraTarget {}

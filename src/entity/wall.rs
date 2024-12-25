@@ -1,9 +1,8 @@
-use bevy::math::Vec3;
-use bevy::prelude::{Commands, Sprite, SpriteBundle, Transform};
+use bevy::prelude::{Commands, Sprite, SpriteBundle};
 
 use crate::components::Wall;
-use crate::constants::{COLOR_WALL, TILE_SIZE};
-use crate::util::tile_pos;
+use crate::constants::COLOR_WALL;
+use crate::features;
 
 pub fn create_wall(commands: &mut Commands, x: i32, y: i32) {
     commands.spawn((
@@ -12,11 +11,7 @@ pub fn create_wall(commands: &mut Commands, x: i32, y: i32) {
                 color: COLOR_WALL,
                 ..Default::default()
             },
-            transform: Transform {
-                translation: Vec3::new(tile_pos(x), tile_pos(y), 0.0),
-                scale: Vec3::new(TILE_SIZE as f32, TILE_SIZE as f32, 1.0),
-                ..Default::default()
-            },
+            transform: features::map::create_transform_from_tile_pos(x, y),
             ..Default::default()
         },
         Wall {},

@@ -1,15 +1,10 @@
-use bevy::prelude::{Camera2dBundle, Commands, Transform};
+use bevy::prelude::Commands;
 
-use crate::constants::{TILE_SIZE, WINDOW_HEIGHT, WINDOW_WIDTH};
+use crate::entity;
 use crate::features;
 
-pub fn run(
-    mut commands: Commands
-) {
-    commands.spawn(Camera2dBundle {
-        transform: Transform::from_xyz(WINDOW_WIDTH / 2.0 - TILE_SIZE as f32 / 2.0, WINDOW_HEIGHT / 2.0 - TILE_SIZE as f32 / 2.0, 0.0),
-        ..Default::default()
-    });
-
+pub fn run(mut commands: Commands) {
     features::map::generate_map(&mut commands);
+    entity::create_player(&mut commands, 1, 1);
+    entity::create_camera(&mut commands);
 }
