@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::components::{Collider, Velocity, Wall};
+use crate::constants::TILE_SIZE;
 use crate::features::collision::are_collision_points_colliding;
 
 const COLLISION_AMENDMENT_DELTA: f32 = 0.5;
@@ -24,11 +25,13 @@ pub fn run(
             colliding_transform.translation.x = new_x;
             colliding_transform.translation.y = prev_y;
 
-            while are_collision_points_colliding(&colliding_transform, collided_transform) {
+            if are_collision_points_colliding(&colliding_transform, collided_transform) {
                 if velocity.x >= 0.0 {
-                    colliding_transform.translation.x -= COLLISION_AMENDMENT_DELTA;
+                    colliding_transform.translation.x =
+                        collided_transform.translation.x - TILE_SIZE as f32;
                 } else {
-                    colliding_transform.translation.x += COLLISION_AMENDMENT_DELTA;
+                    colliding_transform.translation.x =
+                        collided_transform.translation.x + TILE_SIZE as f32;
                 }
             }
 
@@ -37,11 +40,13 @@ pub fn run(
             colliding_transform.translation.x = prev_x;
             colliding_transform.translation.y = new_y;
 
-            while are_collision_points_colliding(&colliding_transform, collided_transform) {
+            if are_collision_points_colliding(&colliding_transform, collided_transform) {
                 if velocity.y >= 0.0 {
-                    colliding_transform.translation.y -= COLLISION_AMENDMENT_DELTA;
+                    colliding_transform.translation.y =
+                        collided_transform.translation.y - TILE_SIZE as f32;
                 } else {
-                    colliding_transform.translation.y += COLLISION_AMENDMENT_DELTA;
+                    colliding_transform.translation.y =
+                        collided_transform.translation.y + TILE_SIZE as f32;
                 }
             }
 
