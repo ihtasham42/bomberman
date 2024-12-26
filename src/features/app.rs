@@ -1,6 +1,6 @@
 use bevy::app::{App, Startup, Update};
 use bevy::DefaultPlugins;
-use bevy::prelude::{ClearColor, PluginGroup, Window, WindowPlugin};
+use bevy::prelude::{ClearColor, IntoSystemConfigs, PluginGroup, Window, WindowPlugin};
 use bevy::window::WindowResolution;
 
 use crate::constants::{COLOR_BACKGROUND, WINDOW_HEIGHT, WINDOW_WIDTH};
@@ -25,8 +25,11 @@ pub fn create_app() {
                 systems::player_input::run,
                 systems::movement::run,
                 systems::velocity::run,
+                systems::collision::run,
+                systems::air_resistance::run,
                 systems::camera::run,
-            ),
+            )
+                .chain(),
         )
         .run();
 }

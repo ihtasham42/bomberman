@@ -1,7 +1,8 @@
+use bevy::prelude::*;
+
 use crate::constants::TILE_SIZE;
 use crate::entity;
 use crate::util::tile_pos;
-use bevy::prelude::*;
 
 pub fn create_transform_from_tile_pos(x: i32, y: i32) -> Transform {
     Transform {

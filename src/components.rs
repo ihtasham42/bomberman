@@ -37,3 +37,5 @@ impl Default for Velocity {
 
 #[derive(Component)]
 pub struct CameraTarget {}
+#[derive(Component)]
+pub struct Collider {}
