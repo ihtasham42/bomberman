@@ -5,5 +5,6 @@ pub use wall::*;
 
 mod bomb;
 mod camera;
+mod explosion;
 mod player;
 mod wall;

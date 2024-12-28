@@ -10,6 +10,7 @@ pub enum CollisionPoint {
     Top,
     Right,
     Bottom,
+    Center,
 }
 
 fn get_collision_point_position(
@@ -31,6 +32,7 @@ fn get_collision_point_position(
         CollisionPoint::Top => (center_x, center_y + half_height),
         CollisionPoint::Right => (center_x + half_width, center_y),
         CollisionPoint::Bottom => (center_x, center_y - half_height),
+        CollisionPoint::Center => (center_x, center_y),
     }
 }
 
@@ -87,6 +89,11 @@ pub fn are_collision_points_colliding(
         )
         || is_collision_point_colliding(
             CollisionPoint::Bottom,
+            colliding_transform,
+            collided_transform,
+        )
+        || is_collision_point_colliding(
+            CollisionPoint::Center,
             colliding_transform,
             collided_transform,
         )

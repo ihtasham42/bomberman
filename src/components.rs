@@ -1,9 +1,17 @@
-use bevy::prelude::Component;
+use bevy::prelude::{Component, Entity};
 
 use crate::features::movement::Direction;
 
 #[derive(Component)]
-pub struct Wall {}
+pub struct Wall {
+    pub(crate) ignore: Vec<Entity>,
+}
+
+impl Default for Wall {
+    fn default() -> Self {
+        Self { ignore: vec![] }
+    }
+}
 
 #[derive(Component)]
 pub struct Player {}

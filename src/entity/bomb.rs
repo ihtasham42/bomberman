@@ -1,10 +1,11 @@
 use bevy::prelude::*;
 
-use crate::components::Bomb;
+use crate::components::{Bomb, Wall};
 use crate::constants::{COLOR_BOMB, ITEM_Z};
 use crate::features;
+use crate::features::util::seconds_to_freq;
 
-pub fn create_bomb(commands: &mut Commands, x: f32, y: f32) {
+pub fn create_bomb(commands: &mut Commands, x: f32, y: f32, ignore_colliders: Vec<Entity>) {
     commands.spawn((
         SpriteBundle {
             sprite: Sprite {
@@ -14,6 +15,11 @@ pub fn create_bomb(commands: &mut Commands, x: f32, y: f32) {
             transform: features::map::create_transform_from_tile_pos(x, y, ITEM_Z),
             ..Default::default()
         },
-        Bomb::default(),
+        Bomb {
+            lifetime: seconds_to_freq(5),
+        },
+        Wall {
+            ignore: ignore_colliders,
+        },
     ));
 }

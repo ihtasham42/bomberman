@@ -14,6 +14,6 @@ pub fn create_wall(commands: &mut Commands, x: f32, y: f32) {
             transform: features::map::create_transform_from_tile_pos(x, y, WALL_Z),
             ..Default::default()
         },
-        Wall {},
+        Wall::default(),
     ));
 }
