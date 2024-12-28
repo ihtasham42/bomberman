@@ -12,6 +12,7 @@ pub struct Player {}
 pub struct Walker {
     pub horizontal_direction: Option<Direction>,
     pub vertical_direction: Option<Direction>,
+    pub last_direction: Option<Direction>,
 }
 
 impl Default for Walker {
@@ -19,6 +20,7 @@ impl Default for Walker {
         Self {
             horizontal_direction: None,
             vertical_direction: None,
+            last_direction: None,
         }
     }
 }
@@ -39,3 +41,30 @@ impl Default for Velocity {
 pub struct CameraTarget {}
 #[derive(Component)]
 pub struct Collider {}
+
+#[derive(Component)]
+pub struct BombPlacer {
+    pub wants_to_place: bool,
+}
+
+impl Default for BombPlacer {
+    fn default() -> Self {
+        Self {
+            wants_to_place: false,
+        }
+    }
+}
+
+#[derive(Component)]
+pub struct Bomb {
+    pub lifetime: i32,
+}
+
+impl Default for Bomb {
+    fn default() -> Self {
+        Self { lifetime: 0 }
+    }
+}
+
+#[derive(Component)]
+pub struct Explosion {}

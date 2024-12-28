@@ -23,7 +23,9 @@ pub fn create_app() {
             Update,
             (
                 systems::player_input::run,
-                systems::movement::run,
+                systems::bomb_placer::run,
+                systems::bomb_exploder::run,
+                systems::walker::run,
                 systems::velocity::run,
                 systems::collision::run,
                 systems::air_resistance::run,

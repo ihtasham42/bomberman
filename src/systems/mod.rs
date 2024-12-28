@@ -1,7 +1,9 @@
 pub mod air_resistance;
+pub mod bomb_exploder;
+pub mod bomb_placer;
 pub mod camera;
 pub mod collision;
-pub mod movement;
 pub mod player_input;
 pub mod setup;
 pub mod velocity;
+pub mod walker;

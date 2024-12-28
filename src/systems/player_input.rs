@@ -1,10 +1,14 @@
 use bevy::prelude::*;
 
-use crate::components::{Player, Walker};
+use crate::components::{BombPlacer, Player, Walker};
 use crate::features::movement::Direction;
 
-pub fn run(mut query: Query<(&Player, &mut Walker)>, keys: Res<ButtonInput<KeyCode>>) {
-    for (_player, mut walker) in &mut query {
+pub fn run(
+    mut walker_query: Query<&mut Walker, With<Player>>,
+    mut bomb_placer_query: Query<&mut BombPlacer, With<Player>>,
+    keys: Res<ButtonInput<KeyCode>>,
+) {
+    for mut walker in &mut walker_query {
         walker.horizontal_direction =
             match (keys.pressed(KeyCode::KeyA), keys.pressed(KeyCode::KeyD)) {
                 (true, false) => Some(Direction::Left),
@@ -18,5 +22,9 @@ pub fn run(mut query: Query<(&Player, &mut Walker)>, keys: Res<ButtonInput<KeyCo
             (false, true) => Some(Direction::Down),
             _ => None,
         };
+    }
+
+    for mut bomb_placer in &mut bomb_placer_query {
+        bomb_placer.wants_to_place = keys.just_pressed(KeyCode::Space);
     }
 }

@@ -4,14 +4,12 @@ use crate::components::{Collider, Velocity, Wall};
 use crate::constants::TILE_SIZE;
 use crate::features::collision::are_collision_points_colliding;
 
-const COLLISION_AMENDMENT_DELTA: f32 = 0.5;
-
 pub fn run(
     mut colliding_query: Query<(&mut Transform, &mut Velocity), With<Collider>>,
-    collided_query: Query<(&Transform), (With<Wall>, Without<Collider>)>,
+    collided_query: Query<&Transform, (With<Wall>, Without<Collider>)>,
 ) {
     for (mut colliding_transform, mut velocity) in colliding_query.iter_mut() {
-        for (collided_transform) in collided_query.iter() {
+        for collided_transform in collided_query.iter() {
             let new_x = colliding_transform.translation.x;
             let new_y = colliding_transform.translation.y;
 
@@ -26,13 +24,15 @@ pub fn run(
             colliding_transform.translation.y = prev_y;
 
             if are_collision_points_colliding(&colliding_transform, collided_transform) {
-                if velocity.x >= 0.0 {
+                if new_x >= prev_x {
                     colliding_transform.translation.x =
-                        collided_transform.translation.x - TILE_SIZE as f32;
+                        collided_transform.translation.x - TILE_SIZE;
                 } else {
                     colliding_transform.translation.x =
-                        collided_transform.translation.x + TILE_SIZE as f32;
+                        collided_transform.translation.x + TILE_SIZE;
                 }
+
+                velocity.x = 0.0;
             }
 
             let amended_x = colliding_transform.translation.x;
@@ -41,13 +41,15 @@ pub fn run(
             colliding_transform.translation.y = new_y;
 
             if are_collision_points_colliding(&colliding_transform, collided_transform) {
-                if velocity.y >= 0.0 {
+                if new_y >= prev_y {
                     colliding_transform.translation.y =
-                        collided_transform.translation.y - TILE_SIZE as f32;
+                        collided_transform.translation.y - TILE_SIZE;
                 } else {
                     colliding_transform.translation.y =
-                        collided_transform.translation.y + TILE_SIZE as f32;
+                        collided_transform.translation.y + TILE_SIZE;
                 }
+
+                velocity.y = 0.0;
             }
 
             let amended_y = colliding_transform.translation.y;
