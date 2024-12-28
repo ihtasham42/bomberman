@@ -26,6 +26,7 @@ pub fn create_app() {
                 systems::player_input::run,
                 systems::bomb_placer::run,
                 systems::bomb_wall_ignore_remover::run,
+                systems::explosion_cleanup::run,
                 systems::walker::run,
                 systems::velocity::run,
                 systems::collision::run,
@@ -34,6 +35,6 @@ pub fn create_app() {
             )
                 .chain(),
         )
-        .add_systems(FixedUpdate, (systems::bomb_exploder::run))
+        .add_systems(FixedUpdate, systems::bomb_exploder::run)
         .run();
 }

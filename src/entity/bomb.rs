@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::components::{Bomb, Wall};
-use crate::constants::{COLOR_BOMB, ITEM_Z};
+use crate::constants::{BOMB_EXPLOSION_INITIAL_LIFETIME, COLOR_BOMB, ITEM_Z};
 use crate::features;
 use crate::features::util::seconds_to_freq;
 
@@ -16,7 +16,7 @@ pub fn create_bomb(commands: &mut Commands, x: f32, y: f32, ignore_colliders: Ve
             ..Default::default()
         },
         Bomb {
-            lifetime: seconds_to_freq(5),
+            lifetime: seconds_to_freq(BOMB_EXPLOSION_INITIAL_LIFETIME),
         },
         Wall {
             ignore: ignore_colliders,

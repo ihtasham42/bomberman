@@ -9,8 +9,8 @@ use crate::features::map::closest_tile_pos;
 pub fn run(
     mut commands: Commands,
     mut bomb_placer_query: Query<(&Transform, &BombPlacer)>,
-    mut collider_query: Query<(Entity, &Transform), With<Collider>>,
-    mut existing_bomb_query: Query<&Transform, With<Bomb>>,
+    collider_query: Query<(Entity, &Transform), With<Collider>>,
+    existing_bomb_query: Query<&Transform, With<Bomb>>,
 ) {
     for (transform, bomb_placer) in &mut bomb_placer_query.iter_mut() {
         if bomb_placer.wants_to_place {

@@ -16,3 +16,6 @@ pub const COLOR_EXPLOSION: Color = Color::srgb(1.0, 0.5, 0.4);
 pub const ITEM_Z: f32 = 5.0;
 pub const PLAYER_Z: f32 = 6.0;
 pub const WALL_Z: f32 = 7.0;
+
+pub const BOMB_EXPLOSION_INITIAL_LIFETIME: f32 = 5.0;
+pub const EXPLOSION_CLEANUP_INITIAL_LIFETIME: f32 = 0.5;

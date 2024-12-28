@@ -6,7 +6,7 @@ use crate::features::collision::are_collision_points_colliding;
 
 pub fn run(
     mut colliding_query: Query<(Entity, &mut Transform, &mut Velocity), With<Collider>>,
-    collided_query: Query<(&Transform, &Wall), (Without<Collider>)>,
+    collided_query: Query<(&Transform, &Wall), Without<Collider>>,
 ) {
     for (entity, mut colliding_transform, mut velocity) in colliding_query.iter_mut() {
         for (collided_transform, wall) in collided_query.iter() {

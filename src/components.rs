@@ -75,4 +75,6 @@ impl Default for Bomb {
 }
 
 #[derive(Component)]
-pub struct Explosion {}
+pub struct Explosion {
+    pub lifetime: i32,
+}
