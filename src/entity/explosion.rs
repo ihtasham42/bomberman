@@ -5,7 +5,7 @@ use crate::constants::{COLOR_EXPLOSION, EXPLOSION_CLEANUP_INITIAL_LIFETIME, ITEM
 use crate::features;
 use crate::features::util::seconds_to_freq;
 
-pub fn create_explosion(mut commands: Commands, x: f32, y: f32) {
+pub fn create_explosion(commands: &mut Commands, x: f32, y: f32) {
     commands.spawn((
         SpriteBundle {
             sprite: Sprite {

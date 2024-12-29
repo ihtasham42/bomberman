@@ -1,5 +1,6 @@
 pub use bomb::*;
 pub use camera::*;
+pub use explosion::*;
 pub use player::*;
 pub use wall::*;
 

@@ -38,7 +38,7 @@ pub fn run(
                 }
             }
 
-            entity::create_bomb(&mut commands, x, y, ignore_colliders);
+            entity::create_bomb(&mut commands, x, y, ignore_colliders, 3);
         }
     }
 }

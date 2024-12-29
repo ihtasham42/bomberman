@@ -66,15 +66,15 @@ impl Default for BombPlacer {
 #[derive(Component)]
 pub struct Bomb {
     pub lifetime: i32,
-}
-
-impl Default for Bomb {
-    fn default() -> Self {
-        Self { lifetime: 0 }
-    }
+    pub power: i32,
 }
 
 #[derive(Component)]
 pub struct Explosion {
     pub lifetime: i32,
+}
+
+#[derive(Component)]
+pub struct Destroyable {
+    pub hitpoints: i32,
 }
