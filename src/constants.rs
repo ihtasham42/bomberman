@@ -20,3 +20,5 @@ pub const WALL_Z: f32 = 7.0;
 
 pub const BOMB_EXPLOSION_INITIAL_LIFETIME: f32 = 5.0;
 pub const EXPLOSION_CLEANUP_INITIAL_LIFETIME: f32 = 0.8;
+
+pub const MAP_SIZE: i32 = 17;

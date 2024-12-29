@@ -1,13 +1,14 @@
 use bevy::prelude::*;
 
-use crate::components::{Bomb, Wall};
+use crate::components::Bomb;
 use crate::constants::TILE_SIZE;
 use crate::entity;
+use crate::features::map::WallLookup;
 
 pub fn run(
     mut commands: Commands,
+    wall_lookup: Res<WallLookup>,
     mut bomb_query: Query<(Entity, &mut Bomb, &Transform)>,
-    mut interaction_query: Query<(&Transform), With<Wall>>,
 ) {
     for (entity, mut bomb, bomb_transform) in bomb_query.iter_mut() {
         bomb.lifetime -= 1;
@@ -38,19 +39,9 @@ pub fn run(
 
                     entity::create_explosion(&mut commands, fx, fy);
 
-                    let mut explosion_blocked = false;
-
-                    for interaction_transform in interaction_query.iter() {
-                        if interaction_transform.translation.x == fx
-                            && interaction_transform.translation.y == fy
-                        {
-                            explosion_blocked = true;
-                        }
-                    }
-
-                    if explosion_blocked {
+                    if wall_lookup.get(fx, fy).is_some() {
                         break;
-                    }
+                    };
                 }
             }
         }

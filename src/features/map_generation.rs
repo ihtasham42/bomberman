@@ -1,7 +1,7 @@
 use bevy::prelude::Commands;
 use rand::Rng;
 
-use crate::constants::TILE_SIZE;
+use crate::constants::{MAP_SIZE, TILE_SIZE};
 use crate::entity;
 use crate::features::map::{tile_pos, WallLookup};
 
@@ -9,8 +9,6 @@ enum WallType {
     Wall,
     Crate,
 }
-
-const MAP_SIZE: i32 = 17;
 
 fn create_wall(
     commands: &mut Commands,
