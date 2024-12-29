@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::components::{Destroyable, Wall};
+use crate::components::{Destroyable, DropsPowerup, Wall};
 use crate::constants::{COLOR_WOOD_CRATE, WALL_Z};
 use crate::features;
 
@@ -17,6 +17,7 @@ pub fn create_wood_crate(commands: &mut Commands, x: f32, y: f32) -> Entity {
             },
             Wall::default(),
             Destroyable { hitpoints: 1 },
+            DropsPowerup {},
         ))
         .id()
 }

@@ -27,21 +27,24 @@ pub fn create_app() {
         )
         .add_systems(
             Update,
+            (systems::player_input::run, systems::camera::run).chain(),
+        )
+        .add_systems(
+            FixedUpdate,
             (
-                systems::player_input::run,
                 systems::bomb_placer::run,
                 systems::bomb_wall_ignore_remover::run,
                 systems::explosion_cleanup::run,
                 systems::explosion_interaction::run,
-                systems::wood_crate_destruction::run,
+                systems::destroyable_destruction::run,
                 systems::walker::run,
                 systems::velocity::run,
                 systems::collision::run,
+                systems::powerup_pickup::run,
                 systems::air_resistance::run,
-                systems::camera::run,
+                systems::bomb_exploder::run,
             )
                 .chain(),
         )
-        .add_systems(FixedUpdate, systems::bomb_exploder::run)
         .run();
 }

@@ -1,21 +1,23 @@
 use bevy::prelude::*;
 
-use crate::components::{Velocity, Walker};
+use crate::components::{PowerupStats, Velocity, Walker};
+use crate::constants::{BASE_MOVE_SPEED, MOVE_SPEED_LEVEL_INCREASE};
 use crate::features::movement::Direction;
 
-const BASE_MOVE_SPEED: f32 = 1.0;
+pub fn run(mut query: Query<(&mut Velocity, &Walker, &PowerupStats)>) {
+    for (mut velocity, walker, power_up_stats) in &mut query {
+        let move_speed =
+            BASE_MOVE_SPEED + MOVE_SPEED_LEVEL_INCREASE * power_up_stats.player_speed as f32;
 
-pub fn run(mut query: Query<(&mut Velocity, &Walker)>) {
-    for (mut velocity, walker) in &mut query {
         velocity.x += match &walker.horizontal_direction {
-            Some(Direction::Left) => -BASE_MOVE_SPEED,
-            Some(Direction::Right) => BASE_MOVE_SPEED,
+            Some(Direction::Left) => -move_speed,
+            Some(Direction::Right) => move_speed,
             _ => 0.0,
         };
 
         velocity.y += match &walker.vertical_direction {
-            Some(Direction::Up) => BASE_MOVE_SPEED,
-            Some(Direction::Down) => -BASE_MOVE_SPEED,
+            Some(Direction::Up) => move_speed,
+            Some(Direction::Down) => -move_speed,
             _ => 0.0,
         };
     }

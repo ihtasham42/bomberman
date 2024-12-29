@@ -25,6 +25,6 @@ pub fn run(
     }
 
     for mut bomb_placer in &mut bomb_placer_query {
-        bomb_placer.wants_to_place = keys.just_pressed(KeyCode::Space);
+        bomb_placer.wants_to_place = keys.pressed(KeyCode::Space);
     }
 }

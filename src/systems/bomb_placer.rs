@@ -1,10 +1,10 @@
 use bevy::prelude::*;
 
+use crate::{entity, features};
 use crate::components::{Bomb, BombPlacer, Collider, PowerupStats};
 use crate::constants::ITEM_Z;
 use crate::features::collision::are_collision_points_colliding;
 use crate::features::map::closest_tile_pos;
-use crate::{entity, features};
 
 pub fn run(
     mut commands: Commands,
@@ -41,7 +41,14 @@ pub fn run(
 
             powerup_stats.current_bombs -= 1;
 
-            entity::create_bomb(&mut commands, x, y, ignore_colliders, 3, bomb_placer_entity);
+            entity::create_bomb(
+                &mut commands,
+                x,
+                y,
+                ignore_colliders,
+                powerup_stats.bomb_power,
+                bomb_placer_entity,
+            );
         }
     }
 }

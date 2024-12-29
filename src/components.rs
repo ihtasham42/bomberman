@@ -1,6 +1,7 @@
 use bevy::prelude::{Component, Entity};
 
 use crate::features::movement::Direction;
+use crate::features::powerup::PowerupType;
 
 #[derive(Component)]
 pub struct Wall {
@@ -82,6 +83,11 @@ pub struct Destroyable {
 
 #[derive(Component)]
 pub struct DropsPowerup;
+
+#[derive(Component)]
+pub struct PowerupPickup {
+    pub powerup_type: PowerupType,
+}
 
 #[derive(Component)]
 pub struct PowerupStats {
