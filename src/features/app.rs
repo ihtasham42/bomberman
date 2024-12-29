@@ -21,7 +21,10 @@ pub fn create_app() {
             }),
             ..Default::default()
         }))
-        .add_systems(Startup, systems::setup::run)
+        .add_systems(
+            Startup,
+            (systems::map_generator::run, systems::player_spawner::run).chain(),
+        )
         .add_systems(
             Update,
             (

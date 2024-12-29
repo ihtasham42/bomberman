@@ -62,3 +62,12 @@ pub fn closest_tile_pos(x: f32, y: f32) -> (f32, f32) {
         (y / TILE_SIZE).round() * TILE_SIZE,
     )
 }
+
+pub fn get_direction_deltas() -> Vec<(f32, f32)> {
+    vec![
+        (TILE_SIZE, 0.0),
+        (-TILE_SIZE, 0.0),
+        (0.0, TILE_SIZE),
+        (0.0, -TILE_SIZE),
+    ]
+}

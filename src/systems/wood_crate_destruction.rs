@@ -1,12 +1,12 @@
 use bevy::prelude::*;
 
-use crate::components::Destroyable;
+use crate::components::{Destroyable, Wall};
 use crate::features::map::{destroy_wall, WallLookup};
 
 pub fn run(
     mut commands: Commands,
     mut wall_lookup: ResMut<WallLookup>,
-    query: Query<(Entity, &Destroyable, &Transform)>,
+    query: Query<(Entity, &Destroyable, &Transform), With<Wall>>,
 ) {
     for (entity, destroyable, transform) in query.iter() {
         if destroyable.hitpoints == 0 {

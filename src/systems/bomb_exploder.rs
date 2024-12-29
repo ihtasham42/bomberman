@@ -1,13 +1,13 @@
 use bevy::prelude::*;
 
-use crate::components::Bomb;
-use crate::constants::TILE_SIZE;
+use crate::components::{Bomb, PowerupStats};
 use crate::entity;
-use crate::features::map::WallLookup;
+use crate::features::map::{get_direction_deltas, WallLookup};
 
 pub fn run(
     mut commands: Commands,
     wall_lookup: Res<WallLookup>,
+    mut bomb_placer_query: Query<&mut PowerupStats>,
     mut bomb_query: Query<(Entity, &mut Bomb, &Transform)>,
 ) {
     for (entity, mut bomb, bomb_transform) in bomb_query.iter_mut() {
@@ -16,18 +16,17 @@ pub fn run(
         if bomb.lifetime <= 0 {
             commands.entity(entity).despawn();
 
+            if let Ok(mut powerup_stats) = bomb_placer_query.get_mut(bomb.placer) {
+                powerup_stats.current_bombs += 1;
+            }
+
             entity::create_explosion(
                 &mut commands,
                 bomb_transform.translation.x,
                 bomb_transform.translation.y,
             );
 
-            let mut bomb_direction_deltas = vec![
-                (TILE_SIZE, 0.0),
-                (-TILE_SIZE, 0.0),
-                (0.0, TILE_SIZE),
-                (0.0, -TILE_SIZE),
-            ];
+            let bomb_direction_deltas = get_direction_deltas();
 
             for (dx, dy) in bomb_direction_deltas {
                 let x = bomb_transform.translation.x;
@@ -46,8 +45,4 @@ pub fn run(
             }
         }
     }
-}
-
-fn explode_bomb(commands: &mut Commands, bomb_entity: Entity, x: f32, y: f32, bomb_power: i32) {
-    commands.entity(bomb_entity).despawn();
 }

@@ -1,7 +1,7 @@
 use bevy::prelude::Commands;
 use rand::Rng;
 
-use crate::constants::{MAP_SIZE, TILE_SIZE};
+use crate::constants::{MAP_SIZE, TILE_SIZE, WOOD_CRATE_SPAWN_RATE};
 use crate::entity;
 use crate::features::map::{tile_pos, WallLookup};
 
@@ -62,7 +62,9 @@ fn generate_wood_crates(commands: &mut Commands, wall_lookup: &mut WallLookup) {
 
             let (tile_x, tile_y) = tile_pos(x as f32, y as f32);
 
-            if random_number <= 0.5 && wall_lookup.get(tile_x, tile_y).is_none() {
+            let wall_entity = wall_lookup.get(tile_x, tile_y);
+
+            if random_number <= WOOD_CRATE_SPAWN_RATE && wall_entity.is_none() {
                 create_wall(commands, wall_lookup, x, y, WallType::Crate);
             }
         }

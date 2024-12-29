@@ -11,22 +11,26 @@ pub fn create_bomb(
     y: f32,
     ignore_colliders: Vec<Entity>,
     bomb_power: i32,
-) {
-    commands.spawn((
-        SpriteBundle {
-            sprite: Sprite {
-                color: COLOR_BOMB,
+    bomb_placer: Entity,
+) -> Entity {
+    commands
+        .spawn((
+            SpriteBundle {
+                sprite: Sprite {
+                    color: COLOR_BOMB,
+                    ..Default::default()
+                },
+                transform: features::map::create_transform_from_tile_pos(x, y, ITEM_Z),
                 ..Default::default()
             },
-            transform: features::map::create_transform_from_tile_pos(x, y, ITEM_Z),
-            ..Default::default()
-        },
-        Bomb {
-            lifetime: seconds_to_freq(BOMB_EXPLOSION_INITIAL_LIFETIME),
-            power: bomb_power,
-        },
-        Wall {
-            ignore: ignore_colliders,
-        },
-    ));
+            Bomb {
+                lifetime: seconds_to_freq(BOMB_EXPLOSION_INITIAL_LIFETIME),
+                power: bomb_power,
+                placer: bomb_placer,
+            },
+            Wall {
+                ignore: ignore_colliders,
+            },
+        ))
+        .id()
 }

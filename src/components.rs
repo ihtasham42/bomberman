@@ -67,6 +67,7 @@ impl Default for BombPlacer {
 pub struct Bomb {
     pub lifetime: i32,
     pub power: i32,
+    pub placer: Entity,
 }
 
 #[derive(Component)]
@@ -77,4 +78,26 @@ pub struct Explosion {
 #[derive(Component)]
 pub struct Destroyable {
     pub hitpoints: i32,
+}
+
+#[derive(Component)]
+pub struct DropsPowerup;
+
+#[derive(Component)]
+pub struct PowerupStats {
+    pub max_bombs: i32,
+    pub current_bombs: i32,
+    pub bomb_power: i32,
+    pub player_speed: i32,
+}
+
+impl Default for PowerupStats {
+    fn default() -> Self {
+        Self {
+            max_bombs: 1,
+            current_bombs: 1,
+            bomb_power: 1,
+            player_speed: 1,
+        }
+    }
 }

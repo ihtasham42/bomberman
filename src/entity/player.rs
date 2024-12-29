@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 
-use crate::components::{BombPlacer, CameraTarget, Collider, Player, Velocity, Walker};
+use crate::components::{
+    BombPlacer, CameraTarget, Collider, Player, PowerupStats, Velocity, Walker,
+};
 use crate::constants::{COLOR_PLAYER, PLAYER_Z};
 use crate::features;
 
@@ -20,5 +22,6 @@ pub fn create_player(commands: &mut Commands, x: f32, y: f32) {
         CameraTarget {},
         Collider {},
         BombPlacer::default(),
+        PowerupStats::default(),
     ));
 }

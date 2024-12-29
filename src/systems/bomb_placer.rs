@@ -1,19 +1,21 @@
 use bevy::prelude::*;
 
-use crate::{entity, features};
-use crate::components::{Bomb, BombPlacer, Collider};
+use crate::components::{Bomb, BombPlacer, Collider, PowerupStats};
 use crate::constants::ITEM_Z;
 use crate::features::collision::are_collision_points_colliding;
 use crate::features::map::closest_tile_pos;
+use crate::{entity, features};
 
 pub fn run(
     mut commands: Commands,
-    mut bomb_placer_query: Query<(&Transform, &BombPlacer)>,
+    mut bomb_placer_query: Query<(Entity, &Transform, &BombPlacer, &mut PowerupStats)>,
     collider_query: Query<(Entity, &Transform), With<Collider>>,
     existing_bomb_query: Query<&Transform, With<Bomb>>,
 ) {
-    for (transform, bomb_placer) in &mut bomb_placer_query.iter_mut() {
-        if bomb_placer.wants_to_place {
+    for (bomb_placer_entity, transform, bomb_placer, mut powerup_stats) in
+        &mut bomb_placer_query.iter_mut()
+    {
+        if bomb_placer.wants_to_place && powerup_stats.current_bombs > 0 {
             let (x, y) = closest_tile_pos(transform.translation.x, transform.translation.y);
 
             let bomb_transform = features::map::create_transform_from_tile_pos(x, y, ITEM_Z);
@@ -26,7 +28,6 @@ pub fn run(
                 })
                 .is_some()
             {
-                println!("a");
                 continue;
             }
 
@@ -38,7 +39,9 @@ pub fn run(
                 }
             }
 
-            entity::create_bomb(&mut commands, x, y, ignore_colliders, 3);
+            powerup_stats.current_bombs -= 1;
+
+            entity::create_bomb(&mut commands, x, y, ignore_colliders, 3, bomb_placer_entity);
         }
     }
 }
