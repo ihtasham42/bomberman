@@ -9,7 +9,7 @@ pub fn run(
     mut bomb_query: Query<(Entity, &mut Bomb, &Transform)>,
     mut interaction_query: Query<(&Transform), With<Wall>>,
 ) {
-    for (entity, mut bomb, transform) in bomb_query.iter_mut() {
+    for (entity, mut bomb, bomb_transform) in bomb_query.iter_mut() {
         bomb.lifetime -= 1;
 
         if bomb.lifetime <= 0 {
@@ -17,8 +17,8 @@ pub fn run(
 
             entity::create_explosion(
                 &mut commands,
-                transform.translation.x,
-                transform.translation.y,
+                bomb_transform.translation.x,
+                bomb_transform.translation.y,
             );
 
             let mut bomb_direction_deltas = vec![
@@ -29,10 +29,10 @@ pub fn run(
             ];
 
             for (dx, dy) in bomb_direction_deltas {
-                let x = transform.translation.x;
-                let y = transform.translation.y;
+                let x = bomb_transform.translation.x;
+                let y = bomb_transform.translation.y;
 
-                for power in 1..bomb.power {
+                for power in 1..bomb.power + 1 {
                     let fx = x + dx * power as f32;
                     let fy = y + dy * power as f32;
 
@@ -41,8 +41,8 @@ pub fn run(
                     let mut explosion_blocked = false;
 
                     for interaction_transform in interaction_query.iter() {
-                        if interaction_transform.translation.x == transform.translation.x
-                            && interaction_transform.translation.y == transform.translation.y
+                        if interaction_transform.translation.x == fx
+                            && interaction_transform.translation.y == fy
                         {
                             explosion_blocked = true;
                         }

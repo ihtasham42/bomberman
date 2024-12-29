@@ -5,7 +5,7 @@ pub mod bomb_wall_ignore_remover;
 pub mod camera;
 pub mod collision;
 pub mod explosion_cleanup;
-pub mod explosion_effector;
+pub mod explosion_interaction;
 pub mod player_input;
 pub mod setup;
 pub mod velocity;

@@ -27,6 +27,7 @@ pub fn create_app() {
                 systems::bomb_placer::run,
                 systems::bomb_wall_ignore_remover::run,
                 systems::explosion_cleanup::run,
+                systems::explosion_interaction::run,
                 systems::walker::run,
                 systems::velocity::run,
                 systems::collision::run,
