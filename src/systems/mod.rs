@@ -10,3 +10,4 @@ pub mod player_input;
 pub mod setup;
 pub mod velocity;
 pub mod walker;
+pub mod wood_crate_destruction;

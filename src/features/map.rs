@@ -1,45 +1,54 @@
+use std::collections::HashMap;
+
 use bevy::prelude::*;
 
 use crate::constants::TILE_SIZE;
-use crate::entity;
+
+#[derive(Resource, Default)]
+pub struct WallLookup {
+    map: HashMap<String, Entity>,
+}
+
+impl WallLookup {
+    fn get_key(x: f32, y: f32) -> String {
+        format!("{},{}", x, y)
+    }
+
+    pub fn get(&self, x: f32, y: f32) -> Option<&Entity> {
+        let key = Self::get_key(x, y);
+
+        self.map.get(&key)
+    }
+
+    pub fn set(&mut self, x: f32, y: f32, entity: Entity) {
+        let key = Self::get_key(x, y);
+
+        self.map.insert(key, entity);
+    }
+
+    pub fn remove(&mut self, x: f32, y: f32) {
+        let key = Self::get_key(x, y);
+
+        self.map.remove(&key);
+    }
+}
+
+pub fn destroy_wall(
+    commands: &mut Commands,
+    wall_lookup: &mut WallLookup,
+    x: f32,
+    y: f32,
+    entity: Entity,
+) {
+    commands.entity(entity).despawn();
+    wall_lookup.remove(x, y);
+}
 
 pub fn create_transform_from_tile_pos(x: f32, y: f32, z: f32) -> Transform {
     Transform {
         translation: Vec3::new(x, y, z),
         scale: Vec3::new(TILE_SIZE, TILE_SIZE, 1.0),
         ..Default::default()
-    }
-}
-
-fn create_wall(commands: &mut Commands, x: i32, y: i32) {
-    entity::create_wall(commands, x as f32 * TILE_SIZE, y as f32 * TILE_SIZE);
-}
-
-pub fn generate_map(commands: &mut Commands) {
-    let map_size = 17;
-
-    for y in 0..map_size {
-        create_wall(commands, 0, y);
-    }
-
-    for x in 1..map_size - 1 {
-        create_wall(commands, x, 0);
-    }
-
-    for y in 0..map_size {
-        create_wall(commands, map_size - 1, y);
-    }
-
-    for x in 1..map_size - 1 {
-        create_wall(commands, x, map_size - 1);
-    }
-
-    for y in 1..map_size - 1 {
-        for x in 1..map_size - 1 {
-            if x % 2 == 0 && y % 2 == 0 {
-                create_wall(commands, x, y)
-            }
-        }
     }
 }
 

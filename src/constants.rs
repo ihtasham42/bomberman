@@ -9,6 +9,7 @@ pub const FIXED_UPDATE_FREQUENCY: f64 = 60.0;
 
 pub const COLOR_BACKGROUND: Color = Color::srgb(0.13, 0.13, 0.23);
 pub const COLOR_WALL: Color = Color::srgb(1.0, 1.0, 1.0);
+pub const COLOR_WOOD_CRATE: Color = Color::srgb(0.7, 0.4, 0.4);
 pub const COLOR_PLAYER: Color = Color::srgb(0.2, 0.7, 0.2);
 pub const COLOR_BOMB: Color = Color::srgb(0.9, 0.1, 0.1);
 pub const COLOR_EXPLOSION: Color = Color::srgb(1.0, 0.5, 0.4);
