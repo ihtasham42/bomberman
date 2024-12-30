@@ -41,8 +41,6 @@ pub fn run(
 
             powerup_stats.current_bombs -= 1;
 
-            bomb_placer.wants_to_place = false;
-
             entity::create_bomb(
                 &mut commands,
                 x,
@@ -52,5 +50,7 @@ pub fn run(
                 bomb_placer_entity,
             );
         }
+
+        bomb_placer.wants_to_place = false;
     }
 }
