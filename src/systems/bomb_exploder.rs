@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use bevy::prelude::*;
 
 use crate::components::{Bomb, PowerupStats};
@@ -10,39 +12,90 @@ pub fn run(
     mut bomb_placer_query: Query<&mut PowerupStats>,
     mut bomb_query: Query<(Entity, &mut Bomb, &Transform)>,
 ) {
-    for (entity, mut bomb, bomb_transform) in bomb_query.iter_mut() {
+    let mut exploded_bomb_entities = HashSet::new();
+    let mut bombs_to_explode = Vec::new();
+
+    for (entity, mut bomb, _) in bomb_query.iter_mut() {
         bomb.lifetime -= 1;
 
         if bomb.lifetime <= 0 {
-            commands.entity(entity).despawn();
-
-            if let Ok(mut powerup_stats) = bomb_placer_query.get_mut(bomb.placer) {
-                powerup_stats.current_bombs += 1;
-            }
-
-            entity::create_explosion(
-                &mut commands,
-                bomb_transform.translation.x,
-                bomb_transform.translation.y,
-            );
-
-            let bomb_direction_deltas = get_direction_deltas();
-
-            for (dx, dy) in bomb_direction_deltas {
-                let x = bomb_transform.translation.x;
-                let y = bomb_transform.translation.y;
-
-                for power in 1..bomb.power + 1 {
-                    let fx = x + dx * power as f32;
-                    let fy = y + dy * power as f32;
-
-                    entity::create_explosion(&mut commands, fx, fy);
-
-                    if wall_lookup.get(fx, fy).is_some() {
-                        break;
-                    };
-                }
-            }
+            bombs_to_explode.push(entity);
         }
     }
+
+    while let Some(bomb_entity) = bombs_to_explode.pop() {
+        if exploded_bomb_entities.contains(&bomb_entity) {
+            continue;
+        }
+
+        let Ok((_, bomb, bomb_transform)) = bomb_query.get(bomb_entity) else {
+            continue;
+        };
+
+        exploded_bomb_entities.insert(bomb_entity);
+
+        let new_bombs_to_explode = explode_bomb(
+            &mut commands,
+            &wall_lookup,
+            &mut bomb_placer_query,
+            &bomb_query,
+            bomb_entity,
+            bomb,
+            bomb_transform,
+        );
+
+        bombs_to_explode = [bombs_to_explode, new_bombs_to_explode].concat()
+    }
+}
+
+fn explode_bomb(
+    mut commands: &mut Commands,
+    wall_lookup: &Res<WallLookup>,
+    bomb_placer_query: &mut Query<&mut PowerupStats>,
+    bomb_query: &Query<(Entity, &mut Bomb, &Transform)>,
+    bomb_entity: Entity,
+    bomb: &Bomb,
+    bomb_transform: &Transform,
+) -> Vec<Entity> {
+    commands.entity(bomb_entity).despawn();
+
+    if let Ok(mut powerup_stats) = bomb_placer_query.get_mut(bomb.placer) {
+        powerup_stats.current_bombs += 1;
+    }
+
+    entity::create_explosion(
+        &mut commands,
+        bomb_transform.translation.x,
+        bomb_transform.translation.y,
+    );
+
+    let bomb_direction_deltas = get_direction_deltas();
+
+    let mut bombs_to_explode = vec![];
+
+    for (dx, dy) in bomb_direction_deltas {
+        let x = bomb_transform.translation.x;
+        let y = bomb_transform.translation.y;
+
+        for power in 1..bomb.power + 1 {
+            let fx = x + dx * power as f32;
+            let fy = y + dy * power as f32;
+
+            entity::create_explosion(&mut commands, fx, fy);
+
+            for (chain_bomb_entity, _, chain_bomb_transform) in bomb_query.iter() {
+                if bomb_transform.translation.x == chain_bomb_transform.translation.x
+                    && bomb_transform.translation.y == chain_bomb_transform.translation.y
+                {
+                    bombs_to_explode.push(chain_bomb_entity)
+                }
+            }
+
+            if wall_lookup.get(fx, fy).is_some() {
+                break;
+            };
+        }
+    }
+
+    bombs_to_explode
 }
