@@ -115,8 +115,8 @@ pub struct PowerupStats {
 impl Default for PowerupStats {
     fn default() -> Self {
         Self {
-            max_bombs: 2,
-            current_bombs: 2,
+            max_bombs: 1,
+            current_bombs: 1,
             bomb_power: 1,
             player_speed: 1,
         }
