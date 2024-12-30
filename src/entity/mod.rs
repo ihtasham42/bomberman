@@ -12,6 +12,7 @@ mod bomb;
 mod bomb_power_powerup;
 mod camera;
 mod explosion;
+mod hitbox;
 mod max_bombs_powerup;
 mod player;
 mod player_speed_powerup;

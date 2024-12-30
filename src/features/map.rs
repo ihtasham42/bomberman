@@ -44,10 +44,10 @@ pub fn destroy_wall(
     wall_lookup.remove(x, y);
 }
 
-pub fn create_transform_from_tile_pos(x: f32, y: f32, z: f32) -> Transform {
+pub fn create_transform_from_tile_pos(x: f32, y: f32, z: f32, scale: f32) -> Transform {
     Transform {
         translation: Vec3::new(x, y, z),
-        scale: Vec3::new(TILE_SIZE, TILE_SIZE, 1.0),
+        scale: Vec3::new(scale, scale, 1.0),
         ..Default::default()
     }
 }

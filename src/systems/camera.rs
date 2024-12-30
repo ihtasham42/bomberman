@@ -15,6 +15,7 @@ pub fn run(
             if let Ok(target_transform) = target_query.get(target) {
                 camera_transform.translation.x = target_transform.translation.x;
                 camera_transform.translation.y = target_transform.translation.y;
+                camera_transform.scale = Vec3::new(1.0, 1.0, 1.0);
             } else {
                 default_target = true;
             }
@@ -23,11 +24,12 @@ pub fn run(
         }
 
         if default_target {
-            let center = (MAP_SIZE / 2 + 1) as f32;
+            let center = (MAP_SIZE / 2) as f32;
             let (x, y) = tile_pos(center, center);
 
             camera_transform.translation.x = x;
             camera_transform.translation.y = y;
+            camera_transform.scale = Vec3::new(2.0, 2.0, 1.0);
         }
     }
 }

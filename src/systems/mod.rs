@@ -7,6 +7,7 @@ pub mod collision;
 pub mod destroyable_destruction;
 pub mod explosion_cleanup;
 pub mod explosion_interaction;
+pub mod hitbox_follow;
 pub mod map_generator;
 pub mod player_input;
 pub mod player_spawner;

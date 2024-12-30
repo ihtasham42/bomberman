@@ -122,3 +122,6 @@ impl Default for PowerupStats {
         }
     }
 }
+
+#[derive(Component)]
+pub struct Hitbox;

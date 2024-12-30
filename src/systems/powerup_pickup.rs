@@ -1,19 +1,24 @@
 use bevy::prelude::*;
 
-use crate::components::{Player, PowerupPickup, PowerupStats};
+use crate::components::{Hitbox, PowerupPickup, PowerupStats};
 use crate::features::collision::are_collision_points_colliding;
 use crate::features::powerup::PowerupType;
 
 pub fn run(
     mut commands: Commands,
     powerup_query: Query<(Entity, &PowerupPickup, &Transform)>,
-    mut player_query: Query<(&mut PowerupStats, &Transform), With<Player>>,
+    hitbox_query: Query<(&Parent, &Transform), With<Hitbox>>,
+    mut powerup_stats_query: Query<&mut PowerupStats>,
 ) {
     for (powerup_entity, powerup_pickup, powerup_transform) in powerup_query.iter() {
-        for (mut powerup_stats, player_transform) in player_query.iter_mut() {
-            if !are_collision_points_colliding(player_transform, powerup_transform) {
+        for (hitbox_parent, hitbox_transform) in hitbox_query.iter() {
+            if !are_collision_points_colliding(hitbox_transform, powerup_transform) {
                 continue;
             }
+
+            let Ok(mut powerup_stats) = powerup_stats_query.get_mut(**hitbox_parent) else {
+                continue;
+            };
 
             match powerup_pickup.powerup_type {
                 PowerupType::MaxBombs => {

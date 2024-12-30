@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{entity, features};
 use crate::components::{Bomb, BombPlacer, Collider, PowerupStats};
-use crate::constants::ITEM_Z;
+use crate::constants::{ITEM_Z, TILE_SIZE};
 use crate::features::collision::are_collision_points_colliding;
 use crate::features::map::closest_tile_pos;
 
@@ -18,7 +18,8 @@ pub fn run(
         if bomb_placer.wants_to_place && powerup_stats.current_bombs > 0 {
             let (x, y) = closest_tile_pos(transform.translation.x, transform.translation.y);
 
-            let bomb_transform = features::map::create_transform_from_tile_pos(x, y, ITEM_Z);
+            let bomb_transform =
+                features::map::create_transform_from_tile_pos(x, y, ITEM_Z, TILE_SIZE);
 
             if existing_bomb_query
                 .iter()
