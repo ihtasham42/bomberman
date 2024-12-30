@@ -10,7 +10,7 @@ pub fn spawn_player(
     commands: &mut Commands,
     wall_lookup: &mut WallLookup,
     destroyable_query: Query<Entity, (With<Wall>, With<Destroyable>)>,
-) {
+) -> Entity {
     let mut spawn_point_candidates = vec![];
 
     for y in 0..MAP_SIZE {
@@ -33,7 +33,7 @@ pub fn spawn_player(
 
     if let Some((x, y)) = spawn_point_candidates.choose(&mut rng) {
         destroy_surrounding_destroyables(commands, wall_lookup, *x, *y, destroyable_query);
-        entity::create_player(commands, *x, *y);
+        entity::create_player(commands, *x, *y)
     } else {
         panic!("No spawn point found")
     }

@@ -9,6 +9,7 @@ pub fn run(
     mut wall_lookup: ResMut<WallLookup>,
     destroyable_query: Query<Entity, (With<Wall>, With<Destroyable>)>,
 ) {
-    features::player_spawn::spawn_player(&mut commands, &mut wall_lookup, destroyable_query);
-    entity::create_camera(&mut commands);
+    let player_entity =
+        features::player_spawn::spawn_player(&mut commands, &mut wall_lookup, destroyable_query);
+    entity::create_camera(&mut commands, player_entity);
 }

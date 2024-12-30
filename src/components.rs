@@ -49,7 +49,10 @@ impl Default for Velocity {
 }
 
 #[derive(Component)]
-pub struct CameraTarget {}
+pub struct Targeter {
+    pub target: Option<Entity>,
+}
+
 #[derive(Component)]
 pub struct Collider {}
 
