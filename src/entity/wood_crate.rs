@@ -16,7 +16,10 @@ pub fn create_wood_crate(commands: &mut Commands, x: f32, y: f32) -> Entity {
                 ..Default::default()
             },
             Wall::default(),
-            Destroyable { hitpoints: 1 },
+            Destroyable {
+                hitpoints: 1,
+                invulnerability_lifetime: 0,
+            },
             DropsPowerup {},
         ))
         .id()

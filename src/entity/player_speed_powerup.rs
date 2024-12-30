@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::components::PowerupPickup;
+use crate::components::{Destroyable, PowerupPickup};
 use crate::constants::{COLOR_PLAYER_SPEED_POWERUP, ITEM_Z};
 use crate::features;
 use crate::features::powerup::PowerupType;
@@ -15,6 +15,7 @@ pub fn create_player_speed_powerup(commands: &mut Commands, x: f32, y: f32) {
             transform: features::map::create_transform_from_tile_pos(x, y, ITEM_Z),
             ..Default::default()
         },
+        Destroyable::new_powerup_pickup(),
         PowerupPickup {
             powerup_type: PowerupType::PlayerSpeed,
         },

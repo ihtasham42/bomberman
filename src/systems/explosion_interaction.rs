@@ -16,7 +16,9 @@ pub fn run(
                 }
 
                 if let Some(mut destroyable) = destroyable {
-                    destroyable.hitpoints -= 1;
+                    if destroyable.invulnerability_lifetime <= 0 {
+                        destroyable.hitpoints -= 1;
+                    }
                 }
             }
         }

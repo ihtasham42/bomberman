@@ -1,7 +1,9 @@
 use bevy::prelude::{Component, Entity};
 
+use crate::constants::POWERUP_PICKUP_INVULNERABILITY_TIME;
 use crate::features::movement::Direction;
 use crate::features::powerup::PowerupType;
+use crate::features::util::seconds_to_freq;
 
 #[derive(Component)]
 pub struct Wall {
@@ -79,6 +81,16 @@ pub struct Explosion {
 #[derive(Component)]
 pub struct Destroyable {
     pub hitpoints: i32,
+    pub invulnerability_lifetime: i32,
+}
+
+impl Destroyable {
+    pub fn new_powerup_pickup() -> Self {
+        Self {
+            hitpoints: 1,
+            invulnerability_lifetime: seconds_to_freq(POWERUP_PICKUP_INVULNERABILITY_TIME),
+        }
+    }
 }
 
 #[derive(Component)]
@@ -100,8 +112,8 @@ pub struct PowerupStats {
 impl Default for PowerupStats {
     fn default() -> Self {
         Self {
-            max_bombs: 1,
-            current_bombs: 1,
+            max_bombs: 2,
+            current_bombs: 2,
             bomb_power: 1,
             player_speed: 1,
         }

@@ -11,17 +11,30 @@ use crate::features::map::{destroy_wall, WallLookup};
 pub fn run(
     mut commands: Commands,
     mut wall_lookup: ResMut<WallLookup>,
-    query: Query<(Entity, &Destroyable, &Transform, Option<&DropsPowerup>), With<Wall>>,
+    mut query: Query<(
+        Entity,
+        &mut Destroyable,
+        &Transform,
+        Option<&DropsPowerup>,
+        Option<&Wall>,
+    )>,
 ) {
-    for (entity, destroyable, transform, drops_powerup) in query.iter() {
-        if destroyable.hitpoints == 0 {
-            destroy_wall(
-                &mut commands,
-                &mut wall_lookup,
-                transform.translation.x,
-                transform.translation.y,
-                entity,
-            );
+    for (entity, mut destroyable, transform, drops_powerup, wall) in query.iter_mut() {
+        destroyable.invulnerability_lifetime =
+            i32::max(destroyable.invulnerability_lifetime - 1, 0);
+
+        if destroyable.hitpoints <= 0 {
+            if let Some(_) = wall {
+                destroy_wall(
+                    &mut commands,
+                    &mut wall_lookup,
+                    transform.translation.x,
+                    transform.translation.y,
+                    entity,
+                );
+            } else {
+                commands.entity(entity).despawn();
+            }
 
             if let Some(_) = drops_powerup {
                 spawn_powerup(&mut commands, transform);

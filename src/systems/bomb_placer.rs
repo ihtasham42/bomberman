@@ -8,11 +8,11 @@ use crate::features::map::closest_tile_pos;
 
 pub fn run(
     mut commands: Commands,
-    mut bomb_placer_query: Query<(Entity, &Transform, &BombPlacer, &mut PowerupStats)>,
+    mut bomb_placer_query: Query<(Entity, &Transform, &mut BombPlacer, &mut PowerupStats)>,
     collider_query: Query<(Entity, &Transform), With<Collider>>,
     existing_bomb_query: Query<&Transform, With<Bomb>>,
 ) {
-    for (bomb_placer_entity, transform, bomb_placer, mut powerup_stats) in
+    for (bomb_placer_entity, transform, mut bomb_placer, mut powerup_stats) in
         &mut bomb_placer_query.iter_mut()
     {
         if bomb_placer.wants_to_place && powerup_stats.current_bombs > 0 {
@@ -40,6 +40,8 @@ pub fn run(
             }
 
             powerup_stats.current_bombs -= 1;
+
+            bomb_placer.wants_to_place = false;
 
             entity::create_bomb(
                 &mut commands,
