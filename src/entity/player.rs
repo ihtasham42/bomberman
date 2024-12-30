@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 
-use crate::components::{BombPlacer, Collider, Player, PowerupStats, Velocity, Walker};
+use crate::components::{
+    BombPlacer, Collider, Player, PowerupStats, Velocity, Walker, WalkerConstrainer,
+};
 use crate::constants::{COLOR_PLAYER, PLAYER_Z, TILE_SIZE};
 use crate::entity::hitbox::HitboxBundle;
 use crate::features;
@@ -19,6 +21,7 @@ pub fn create_player(commands: &mut Commands, x: f32, y: f32) -> Entity {
             Velocity::default(),
             Player {},
             Walker::default(),
+            WalkerConstrainer::default(),
             Collider {},
             BombPlacer::default(),
             PowerupStats::default(),

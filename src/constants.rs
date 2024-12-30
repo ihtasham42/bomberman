@@ -26,7 +26,7 @@ pub const BOMB_EXPLOSION_INITIAL_LIFETIME: f32 = 4.0;
 pub const EXPLOSION_CLEANUP_INITIAL_LIFETIME: f32 = 0.5;
 
 pub const MAP_SIZE: i32 = 25;
-pub const WOOD_CRATE_SPAWN_RATE: f64 = 0.7;
+pub const WOOD_CRATE_SPAWN_RATE: f64 = 0.0; // 0.7;
 pub const POWERUP_DROP_RATE: f64 = 1.0;
 pub const BASE_MOVE_SPEED: f32 = 1.5;
 pub const MOVE_SPEED_LEVEL_INCREASE: f32 = 0.4;

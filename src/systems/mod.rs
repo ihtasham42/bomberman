@@ -14,3 +14,4 @@ pub mod player_spawner;
 pub mod powerup_pickup;
 pub mod velocity;
 pub mod walker;
+pub mod walker_constrainer;

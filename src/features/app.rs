@@ -40,6 +40,7 @@ pub fn create_app() {
                 systems::velocity::run,
                 systems::collision::run,
                 systems::air_resistance::run,
+                systems::walker_constrainer::run,
                 systems::hitbox_follow::run,
                 systems::destroyable_destruction::run,
                 systems::powerup_pickup::run,

@@ -118,10 +118,25 @@ impl Default for PowerupStats {
             max_bombs: 1,
             current_bombs: 1,
             bomb_power: 1,
-            player_speed: 1,
+            player_speed: 9,
         }
     }
 }
 
 #[derive(Component)]
 pub struct Hitbox;
+
+#[derive(Component)]
+pub struct WalkerConstrainer {
+    pub prev_x: f32,
+    pub prev_y: f32,
+}
+
+impl Default for WalkerConstrainer {
+    fn default() -> Self {
+        Self {
+            prev_x: 0.0,
+            prev_y: 0.0,
+        }
+    }
+}
