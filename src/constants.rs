@@ -32,4 +32,4 @@ pub const BASE_MOVE_SPEED: f32 = 1.5;
 pub const MOVE_SPEED_LEVEL_INCREASE: f32 = 0.4;
 pub const POWERUP_PICKUP_INVULNERABILITY_TIME: f32 = 0.6;
 pub const HITBOX_TO_TILE_SCALE: f32 = 0.7;
-pub const MAX_CAMERA_TRAUMA: f32 = 0.5;
+pub const MAX_CAMERA_TRAUMA: f32 = 0.4;

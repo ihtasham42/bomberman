@@ -72,10 +72,10 @@ fn shake_camera(
     let distance = camera_pos.distance(bomb_pos);
 
     let divisor_1 = (distance / TILE_SIZE - bomb_power as f32).max(0.01);
-    let divisor_2 = 1.0 + divisor_1.ln() / 3.0_f32.ln();
+    let divisor_2 = 1.0 + divisor_1.ln() / 4.0_f32.ln();
     let factor = 1.0 / divisor_2;
 
-    let trauma_value = (MAX_CAMERA_TRAUMA * factor - 0.05).max(0.0);
+    let trauma_value = (MAX_CAMERA_TRAUMA * factor - 0.05).max(0.0).min(0.3);
 
     camera_shake.add_trauma(trauma_value);
 }

@@ -1,6 +1,10 @@
 use bevy::prelude::*;
+use strum::IntoEnumIterator;
+use strum_macros::EnumIter;
 
-#[derive(Eq, Hash, PartialEq, Debug)]
+use crate::features::map::{closest_tile_pos, WallLookup};
+
+#[derive(Eq, Hash, PartialEq, Debug, EnumIter)]
 pub enum CollisionPoint {
     TopLeft,
     TopRight,
@@ -36,6 +40,26 @@ fn get_collision_point_position(
     }
 }
 
+fn is_collision_point_colliding_with_wall(
+    collision_point: CollisionPoint,
+    colliding_transform: &Transform,
+    wall_lookup: &WallLookup,
+) -> bool {
+    let (x, y) = get_collision_point_position(colliding_transform, collision_point);
+    let (tile_x, tile_y) = closest_tile_pos(x, y);
+
+    wall_lookup.get(tile_x, tile_y).is_some()
+}
+
+pub fn are_collision_points_colliding_with_wall(
+    colliding_transform: &Transform,
+    wall_lookup: &WallLookup,
+) -> bool {
+    CollisionPoint::iter().any(|collision_point| {
+        is_collision_point_colliding_with_wall(collision_point, colliding_transform, wall_lookup)
+    })
+}
+
 fn is_collision_point_colliding(
     collision_point: CollisionPoint,
     colliding_transform: &Transform,
@@ -61,40 +85,7 @@ pub fn are_collision_points_colliding(
     colliding_transform: &Transform,
     collided_transform: &Transform,
 ) -> bool {
-    is_collision_point_colliding(
-        CollisionPoint::TopLeft,
-        colliding_transform,
-        collided_transform,
-    ) || is_collision_point_colliding(
-        CollisionPoint::TopRight,
-        colliding_transform,
-        collided_transform,
-    ) || is_collision_point_colliding(
-        CollisionPoint::BottomRight,
-        colliding_transform,
-        collided_transform,
-    ) || is_collision_point_colliding(
-        CollisionPoint::BottomLeft,
-        colliding_transform,
-        collided_transform,
-    ) || is_collision_point_colliding(
-        CollisionPoint::Left,
-        colliding_transform,
-        collided_transform,
-    ) || is_collision_point_colliding(CollisionPoint::Top, colliding_transform, collided_transform)
-        || is_collision_point_colliding(
-            CollisionPoint::Right,
-            colliding_transform,
-            collided_transform,
-        )
-        || is_collision_point_colliding(
-            CollisionPoint::Bottom,
-            colliding_transform,
-            collided_transform,
-        )
-        || is_collision_point_colliding(
-            CollisionPoint::Center,
-            colliding_transform,
-            collided_transform,
-        )
+    CollisionPoint::iter().any(|collision_point| {
+        is_collision_point_colliding(collision_point, colliding_transform, collided_transform)
+    })
 }
