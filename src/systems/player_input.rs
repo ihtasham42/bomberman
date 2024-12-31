@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::components::{BombPlacer, Player, Walker};
-use crate::features::movement::Direction;
+use crate::features::movement::{Direction, DirectionAxis};
 
 pub fn run(
     mut walker_query: Query<&mut Walker, With<Player>>,
@@ -22,6 +22,14 @@ pub fn run(
             (false, true) => Some(Direction::Down),
             _ => None,
         };
+
+        if keys.just_pressed(KeyCode::KeyA) || keys.just_pressed(KeyCode::KeyD) {
+            walker.priority_direction_axis = DirectionAxis::Horizontal;
+        }
+
+        if keys.just_pressed(KeyCode::KeyW) || keys.just_pressed(KeyCode::KeyS) {
+            walker.priority_direction_axis = DirectionAxis::Vertical;
+        }
     }
 
     for mut bomb_placer in &mut bomb_placer_query {

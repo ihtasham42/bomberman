@@ -1,19 +1,25 @@
 use std::collections::HashSet;
 
 use bevy::prelude::*;
+use bevy_trauma_shake::Shake;
 
 use crate::components::{Bomb, PowerupStats};
+use crate::constants::{MAX_CAMERA_TRAUMA, TILE_SIZE};
 use crate::entity;
 use crate::features::map::{get_direction_deltas, WallLookup};
 
 pub fn run(
     mut commands: Commands,
     wall_lookup: Res<WallLookup>,
+    mut camera_query: Query<(&Transform, &mut Shake)>,
     mut bomb_placer_query: Query<&mut PowerupStats>,
     mut bomb_query: Query<(Entity, &mut Bomb, &Transform)>,
 ) {
     let mut exploded_bomb_entities = HashSet::new();
     let mut bombs_to_explode = Vec::new();
+    let (camera_transform, mut camera_shake) = camera_query
+        .get_single_mut()
+        .expect("User camera should exist");
 
     for (entity, mut bomb, _) in bomb_query.iter_mut() {
         bomb.lifetime -= 1;
@@ -44,8 +50,34 @@ pub fn run(
             bomb_transform,
         );
 
+        shake_camera(
+            camera_transform,
+            &mut camera_shake,
+            bomb_transform,
+            bomb.power,
+        );
+
         bombs_to_explode = [bombs_to_explode, new_bombs_to_explode].concat()
     }
+}
+
+fn shake_camera(
+    camera_transform: &Transform,
+    camera_shake: &mut Shake,
+    bomb_transform: &Transform,
+    bomb_power: i32,
+) {
+    let camera_pos = camera_transform.translation.truncate();
+    let bomb_pos = bomb_transform.translation.truncate();
+    let distance = camera_pos.distance(bomb_pos);
+
+    let divisor_1 = (distance / TILE_SIZE - bomb_power as f32).max(0.01);
+    let divisor_2 = 1.0 + divisor_1.ln() / 3.0_f32.ln();
+    let factor = 1.0 / divisor_2;
+
+    let trauma_value = (MAX_CAMERA_TRAUMA * factor - 0.05).max(0.0);
+
+    camera_shake.add_trauma(trauma_value);
 }
 
 fn explode_bomb(

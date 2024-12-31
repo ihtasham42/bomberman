@@ -1,7 +1,7 @@
 use bevy::prelude::{Component, Entity};
 
 use crate::constants::POWERUP_PICKUP_INVULNERABILITY_TIME;
-use crate::features::movement::Direction;
+use crate::features::movement::{Direction, DirectionAxis};
 use crate::features::powerup::PowerupType;
 use crate::features::util::seconds_to_freq;
 
@@ -23,7 +23,7 @@ pub struct Player {}
 pub struct Walker {
     pub horizontal_direction: Option<Direction>,
     pub vertical_direction: Option<Direction>,
-    pub last_direction: Option<Direction>,
+    pub priority_direction_axis: DirectionAxis,
 }
 
 impl Default for Walker {
@@ -31,7 +31,7 @@ impl Default for Walker {
         Self {
             horizontal_direction: None,
             vertical_direction: None,
-            last_direction: None,
+            priority_direction_axis: DirectionAxis::Horizontal,
         }
     }
 }
@@ -140,3 +140,9 @@ impl Default for WalkerConstrainer {
         }
     }
 }
+
+#[derive(Component)]
+pub struct WalkerAssist;
+
+#[derive(Component)]
+pub struct UserPlayer;
