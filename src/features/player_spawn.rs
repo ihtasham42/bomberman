@@ -33,7 +33,7 @@ pub fn spawn_player(
 
     if let Some((x, y)) = spawn_point_candidates.choose(&mut rng) {
         destroy_surrounding_destroyables(commands, wall_lookup, *x, *y, destroyable_query);
-        entity::create_player(commands, *x, *y)
+        entity::create_user_player(commands, *x, *y)
     } else {
         panic!("No spawn point found")
     }

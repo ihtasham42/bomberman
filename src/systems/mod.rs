@@ -15,5 +15,6 @@ pub mod powerup_pickup;
 pub mod user_camera_spawner;
 pub mod velocity;
 pub mod walker;
+pub mod walker_assist;
 pub mod walker_direction_constrainer;
 pub mod walker_position_constrainer;

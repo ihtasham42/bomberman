@@ -1,5 +1,6 @@
 use crate::constants::TILE_SIZE;
 
+#[derive(Clone)]
 pub enum Direction {
     Up,
     Down,
@@ -21,4 +22,13 @@ impl Direction {
 pub enum DirectionAxis {
     Horizontal,
     Vertical,
+}
+
+impl From<Direction> for DirectionAxis {
+    fn from(direction: Direction) -> Self {
+        match direction {
+            Direction::Up | Direction::Down => DirectionAxis::Vertical,
+            Direction::Left | Direction::Right => DirectionAxis::Horizontal,
+        }
+    }
 }

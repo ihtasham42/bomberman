@@ -1,13 +1,14 @@
 use bevy::prelude::*;
 
 use crate::components::{
-    BombPlacer, Collider, Player, PowerupStats, UserPlayer, Velocity, Walker, WalkerConstrainer,
+    BombPlacer, Collider, Player, PowerupStats, UserPlayer, Velocity, Walker, WalkerAssist,
+    WalkerConstrainer,
 };
 use crate::constants::{COLOR_PLAYER, PLAYER_Z, TILE_SIZE};
 use crate::entity::hitbox::HitboxBundle;
 use crate::features;
 
-pub fn create_player(commands: &mut Commands, x: f32, y: f32) -> Entity {
+pub fn create_user_player(commands: &mut Commands, x: f32, y: f32) -> Entity {
     commands
         .spawn((
             SpriteBundle {
@@ -23,6 +24,7 @@ pub fn create_player(commands: &mut Commands, x: f32, y: f32) -> Entity {
             UserPlayer {},
             Walker::default(),
             WalkerConstrainer::default(),
+            WalkerAssist {},
             Collider {},
             BombPlacer::default(),
             PowerupStats::default(),

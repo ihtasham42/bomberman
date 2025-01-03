@@ -3,8 +3,8 @@ pub use bomb_power_powerup::*;
 pub use camera::*;
 pub use explosion::*;
 pub use max_bombs_powerup::*;
-pub use player::*;
 pub use player_speed_powerup::*;
+pub use user_player::*;
 pub use wall::*;
 pub use wood_crate::*;
 
@@ -14,7 +14,7 @@ mod camera;
 mod explosion;
 mod hitbox;
 mod max_bombs_powerup;
-mod player;
 mod player_speed_powerup;
+mod user_player;
 mod wall;
 mod wood_crate;

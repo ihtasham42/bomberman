@@ -46,6 +46,7 @@ pub fn create_app() {
                 systems::explosion_cleanup::run,
                 systems::explosion_interaction::run,
                 systems::walker_direction_constrainer::run,
+                systems::walker_assist::run,
                 systems::walker::run,
                 systems::velocity::run,
                 systems::collision::run,
